@@ -35,6 +35,13 @@
         .card p { font-size: 0.9rem; color: var(--text-muted); }
         .card-number { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 0.8rem; font-weight: 700; color: #333340; }
 
+        /* Sonic Sandbox Styles */
+        .sandbox { margin-bottom: 4rem; text-align: center; }
+        .sandbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .sound-card { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .sound-card:hover { border-color: var(--accent); }
+        .sound-card h4 { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-main); }
+
         .pricing-section { background: linear-gradient(180deg, var(--bg-card) 0%, #0d0d11 100%); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 2rem; text-align: center; margin-bottom: 4rem; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .price { font-size: 3.5rem; font-weight: 800; color: var(--text-main); margin: 1rem 0; letter-spacing: -0.05em; }
         .price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; letter-spacing: 0; }
@@ -74,6 +81,25 @@
                 <div class="card"><span class="card-number">02</span><h3>Queue</h3><p>Submit unlimited tasks to your custom channel. One active request processed at a time.</p></div>
                 <div class="card"><span class="card-number">03</span><h3>Deploy</h3><p>Receive master-ready assets within 48 hours. Perfectly matched to your UI.</p></div>
             </div>
+
+            <section class="sandbox">
+                <h2 style="color: var(--accent); margin-bottom: 0.5rem;">SONIC SANDBOX</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Interact with production-grade UI triggers.</p>
+                <div class="sandbox-grid">
+                    <div class="sound-card" onclick="playUiAudio('swap')" onmouseenter="hoverUiAudio()">
+                        <div style="font-size: 1.5rem;">⚡</div>
+                        <h4>Token Swap</h4>
+                    </div>
+                    <div class="sound-card" onclick="playUiAudio('loot')" onmouseenter="hoverUiAudio()">
+                        <div style="font-size: 1.5rem;">🏆</div>
+                        <h4>Reward Claim</h4>
+                    </div>
+                    <div class="sound-card" onclick="playUiAudio('complete')" onmouseenter="hoverUiAudio()">
+                        <div style="font-size: 1.5rem;">🧠</div>
+                        <h4>AI Inference</h4>
+                    </div>
+                </div>
+            </section>
 
             <div class="pricing-section">
                 <h2>The Pipeline Subscription</h2>
@@ -118,6 +144,17 @@
     </div>
 
     <script>
+        // Audio Logic
+        const sounds = {
+            swap: new Audio('public/audio/swap.ogg'),
+            loot: new Audio('public/audio/loot.ogg'),
+            complete: new Audio('public/audio/complete.ogg'),
+            hover: new Audio('public/audio/hover.ogg')
+        };
+        function hoverUiAudio() { sounds.hover.currentTime = 0; sounds.hover.play().catch(e => {}); }
+        function playUiAudio(action) { if (sounds[action]) { sounds[action].currentTime = 0; sounds[action].play(); } }
+
+        // Copy Logic
         function copyAddress(elementId, buttonElement) {
             const addressText = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(addressText).then(() => {
